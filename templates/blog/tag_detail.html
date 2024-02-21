@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+        
+    <main>
+      <div class="container">
+        <div class="layout">
+          <!-- left layout -->
+          <div class="left">
+            <div class="page-top">
+              <div class="top flex">
+                <div class="page-name">
+                  <a href="{% url 'home:home' %}" class="learn">
+                    <span class="material-icons"> keyboard_return </span> Go
+                    back
+                  </a>
+                  <h1>Tag</h1>
+                </div>
+              </div>
+            </div>
+
+            <center>
+              <div class="typo">
+                <h1 class="title">{{tag.name}}</h1>
+                <p>{{tag.description}}</p>
+              </div>
+            </center>
+            <section class="sp">
+              <div class="container">
+                <h1 class="sec-title">Recent posts</h1>
+                <div class="grid-2 blog">
+                  
+                  {% for recent_post in recent_posts %}
+                    <!-- card -->
+                  <a href="{% url 'home:post_detail' recent_post.slug %}">
+                    <div class="card">
+                      <div class="post-img">
+                        <img src="{{recent_post.image.url}}" alt="" />
+                        <div class="tag">{{tag.name}}</div>
+                      </div>
+                      <div class="card-content">
+                        <h3>{{recent_post.title}}</h3>
+                        <div class="author">
+                          <div class="profile-pic">
+                            <img src="" alt="" />
+                          </div>
+                          <div class="details">
+                            <p>{{recent_post.author.username}}</p>
+                            <small>{{recent_post.updated|date}}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  <!-- card end-->
+                  {% endfor %}
+                    
+                </div>
+              </div>
+            </section>
+            <section class="sp">
+              <div class="container">
+                <h1 class="sec-title">Top posts</h1>
+                <div class="grid-3 blog-grid">
+                  
+                  {% for top_post in top_posts %}
+                    <!-- card -->
+                  <a href="{% url 'home:post_detail' top_post.slug %}">
+                    <div class="card">
+                      <div class="post-img">
+                        <img src="{{top_post.image.url}}" alt="" />
+                        <div class="tag">{{tag.name}}</div>
+                      </div>
+                      <div class="card-content">
+                        <h3>{{top_post.title}}</h3>
+                        <div class="author">
+                          <div class="profile-pic">
+                            <img src="{{top_post.author.profileUser.image.url}}" alt="" />
+                          </div>
+                          <div class="details">
+                            <p>{{top_post.author.username}}</p>
+                            <small>{{top_post.updated|date}}</small>
+                          </div>
+                        </div>
+                    </div>
+                  </a>
+                  <!-- card end-->
+                  {% endfor %}
+                    
+                </div>
+                <center>
+                  <button class="btn btn-primary rounded view">
+                    View more
+                    <span class="material-icons"> trending_flat </span>
+                  </button>
+                </center>
+              </div>
+            </section>
+          </div>
+          <!-- left layout end -->
+
+          <!-- right layout -->
+          <div class="right">
+            <div class="block">
+              <h2 class="title2">More Tags</h2>
+              <div class="blog-tags">
+                
+                {% for tag in tags %}
+                <a href="{% url 'home:tag_detail' tag.slug %}" class="tag">{{tag.name}}</a>
+                {% endfor %}
+                  
+              </div>
+            </div>
+          </div>
+          <!-- right layout end -->
+        </div>
+      </div>
+    </main>
+    {% endblock content %}

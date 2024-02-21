@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Blog | Welcome
+{% endblock %}
+{% block content %}
+  <main class="sp">
+    <div class="container">
+      <center>
+        <div class="search-bar">
+          <input type="text" placeholder="Search" />
+          <a href="{% url 'home:search' %}" class="animated-search" onclick="searchbar()">
+            <i class="uil uil-search"></i>
+          </a>
+        </div>
+        <div class="typo">
+          {% if websiteInfo %}
+            <h1 class="title">{{ websiteInfo.title }}</h1>
+            <p>{{ websiteInfo.description }}</p>
+          {% else %}
+            <h1 class="title">Website blog title</h1>
+            <p>Lorem ipsum began as scrambled, nonsensical Latin derived from Cicero's 1st-century BC text De Finibus Bonorum et Malorum.</p>
+          {% endif %}
+        </div>
+        <div class="newsletter">
+          <form method="POST">
+            <input type="email" name="email" maxlength="100" placeholder="Enter your email" required="" id="id_email" />
+            <button class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </center>
+    </div>
+  </main>
+
+  {% if featured_post %}
+    <section class="sp">
+      <div class="container">
+        <div class="grid-2">
+          <div class="post-img">
+            <img src="{{ featured_post.image.url }}" alt="" />
+          </div>
+          <div class="post-content">
+            <div class="cetagory">
+              <p>Category name</p>
+            </div>
+            <h1>{{ featured_post.title }}</h1>
+            <p class="des">{{ featured_post.content|truncatewords:50 }}</p>
+            <a class="learn" href="{% url 'home:post_detail' featured_post.slug %}">Learn more <span class="material-icons">trending_flat</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="sp">
+    <div class="container">
+      <h1 class="sec-title">Top blogs</h1>
+      <div class="grid-3">
+        {% for top_post in top_posts %}
+          <!-- card -->
+          <a href="{% url 'home:post_detail' top_post.slug %}">
+            <div class="card">
+              <div class="post-img">
+                <img src="{{ top_post.image.url }}" alt="" />
+                <div class="tag">{{ top_post.tag.all.0.name }}</div>
+              </div>
+              <div class="card-content">
+                <h3>{{ top_post.title }}</h3>
+                <div class="author">
+                  <div class="profile-pic">
+                    <img src="{{ top_post.author.profileUser.image.url }}" alt="" />
+                  </div>
+                  <div class="details">
+                    <p>{{ top_post.author }}</p>
+                    <small>{{ top_post.updated|date }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <!-- card end -->
+        {% endfor %}
+      </div>
+      <center>
+        <a href=""><button class="btn btn-primary rounded view">View more <span class="material-icons">trending_flat</span></button></a>
+      </center>
+    </div>
+  </section>
+  <section class="sp">
+    <div class="container">
+      <h1 class="sec-title">New blogs</h1>
+      <div class="grid-3">
+        {% for recent_post in recent_posts %}
+          <!-- card -->
+          <a href="{% url 'home:post_detail' recent_post.slug %}">
+            <div class="card">
+              <div class="post-img">
+                <img src="{{ recent_post.image.url }}" alt="" />
+                <div class="tag">{{ recent_post.tag.all.0.name }}</div>
+              </div>
+              <div class="card-content">
+                <h3>{{ recent_post.title }}</h3>
+                <div class="author">
+                  <div class="profile-pic">
+                    <img src="{{recent_post.author.profileUser.image.url}}" alt="{{recent_post.author.username}}" />
+                  </div>
+                  <div class="details">
+                    <p>{{ recent_post.author.username }}</p>
+                    <small>{{ recent_post.updated|date }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <!-- card end -->
+        {% endfor %}
+      </div>
+      <center>
+        <a href=""><button class="btn btn-primary rounded view">View more <span class="material-icons">trending_flat</span></button></a>
+      </center>
+    </div>
+  </section>
+{% endblock %}
